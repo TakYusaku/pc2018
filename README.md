@@ -21,7 +21,7 @@ This learns by following the steps below.
 2.initialize learning environment.  
 3.learning (loop)  
   * calculate the best move  
-  * get enemy's move  
+  * get enemy's move ★  
   * decide friend's and enemy's move  
   * get reward  
   * save move and position  
@@ -53,10 +53,10 @@ i want Kota to make Enemy system.
 1. calculate the best move  
 2. return direction(including stay) or remove panel   
 
-引数を，　ターン数・フィールド情報（サイズ，得点）・初期位置　，　として，最善手を計算し，  
+引数を，ターン数・フィールド情報（サイズ，得点）・初期位置，として，最善手を計算し，  
 1．”移動するなら方向を番号で（以下に示す）”，  
 2．”移動するなら方向を番号で（以下に示す）”，  
-3．”移動orパネル除去予定位置を[[x3,y3],[x4,y4]](フィールドの横(row)をx,フィールドの縦(column)をy として，敵（3と4）の座標を収納)”，  
+3．”移動orパネル除去予定位置を[[x3,y3],[x4,y4]](フィールドの横(row)をx,フィールドの縦(column)をyとして，敵（3と4）の座標を収納)”，  
 4．”パネルを除去するなら文字列で'remove'”  
 を返して欲しい．  
 今ある機能として，  
@@ -69,4 +69,4 @@ i want Kota to make Enemy system.
 がある．
 
 詳しくはまたLINEして！  
-それと，今回追加した　purocon にあるフィールドサーバを使って欲しい．　　
+それと，今回追加した'purocon'にあるフィールドサーバを使って欲しい．　　

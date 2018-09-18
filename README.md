@@ -13,7 +13,7 @@ This learns by following the steps below.
   * get enemy's move  ★  
   * decide friend's and enemy's move  
   * get reward  
-  * update q table    
+  * update q table
 4.save q table(result)
 
 ### Monte Calro Method

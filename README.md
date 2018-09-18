@@ -98,3 +98,4 @@ i want Kota to make Enemy system.
 がある．
 
 詳しくはまたLINEして！
+それと，今回追加した　purocon にあるフィールドサーバを使って欲しい．

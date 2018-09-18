@@ -42,10 +42,10 @@ change directory that is 'pc2018-master'　and execute following commands in adv
 
 > go run api.go
 
-if you use Q-Learning system by learning 
+if you use Q-Learning system for learning 
 > python3 QLprocon2018.py
 
-if you use Monte Carlo Method system by learning
+if you use Monte Carlo Method system for learning
 > python3 mcl0917.py
 
 ## Favor

@@ -8,42 +8,30 @@ This learns by following the steps below.
 
 1.read q table which is 'Action Value Function'.  
 2.initialize learning environment.  
-3.learning (loop 3.1 ~ 3.5)  
+3.learning (loop)  
   * calculate the best move  
   * get enemy's move  ★  
   * decide friend's and enemy's move  
   * get reward  
-  * update q table
+  * update q table  
 4.save q table(result)
 
 ### Monte Calro Method
-
-1.read q table which is 'Action Value Function'.
-
-2.initialize learning environment.
-
-3.learning (loop 3.1 ~ 3.5)
-
-  3.1 calculate the best move
-  
-  3.2 get enemy's move
-  
-  3.3 decide friend's and enemy's move 
-  
-  3.4 get reward
-  
-  3.5 save move and position
-  
-  3.5 "if tern ended" , update q table
-  
+1.read q table which is 'Action Value Function'.  
+2.initialize learning environment.  
+3.learning (loop)  
+  * calculate the best move  
+  * get enemy's move  
+  * decide friend's and enemy's move  
+  * get reward  
+  * save move and position  
+  * "if tern ended" , update q table  
 4.save q table(result)
 
 
-the difference of both Q-Learning and Monte Calro Method is timing of updating q table .
-
-in Q-Learning, q table is updated every terns.
+the difference of both Q-Learning and Monte Calro Method is timing of updating q table .  
+in Q-Learning, q table is updated every terns.  
 on the other hand,in Monte Carlo Method, q table is updated at the end of game.
-
 
 ## Requirement
 Python 3.6.5, go 1.10.3
@@ -61,11 +49,9 @@ if you use Monte Carlo Method system by learning
 > python3 mcl0917.py
 
 ## Favor
-i want Kota to make Enemy system.
-
-1. calculate the best move
-
-2. return direction(including stay) or remove panel 
+i want Kota to make Enemy system.  
+1. calculate the best move  
+2. return direction(including stay) or remove panel   
 
 引数を，　ターン数・フィールド情報（サイズ，得点）・初期位置　，　として，最善手を計算し，
 

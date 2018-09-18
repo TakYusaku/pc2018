@@ -3,7 +3,7 @@ pc2018
 ## Description
 This is a system which to win Encampment game of 'Programming Contest 2018' (Competitive Part).
 
-This　system is 'Reinforcement Learning'.
+This system is 'Reinforcement Learning'.
 
 ## Requirement
 Python 3.6.5, go 1.10.3

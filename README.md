@@ -6,22 +6,14 @@ This system is 'Reinforcement Learning'.
 This learns by following the steps below.  
 ### Q - Learning
 
-1.read q table which is 'Action Value Function'.
-
-2.initialize learning environment.
-
-3.learning (loop 3.1 ~ 3.5)
-
-  3.1 calculate the best move
-  
-  3.2 get enemy's move  ★
-  
-  3.3 decide friend's and enemy's move 
-  
-  3.4 get reward
-  
-  3.5 update q table
-  
+1.read q table which is 'Action Value Function'.  
+2.initialize learning environment.  
+3.learning (loop 3.1 ~ 3.5)  
+  * calculate the best move  
+  * get enemy's move  ★  
+  * decide friend's and enemy's move  
+  * get reward  
+  * update q table    
 4.save q table(result)
 
 ### Monte Calro Method

@@ -2,6 +2,7 @@ pc2018
 ====
 ## Description
 This is a system which to win Encampment game of 'Programming Contest 2018' (Competitive Part).
+
 This　system is 'Reinforcement Learning'.
 
 ## Requirement
@@ -15,6 +16,7 @@ change directory that is 'pc2018-master'　and execute following commands in adv
 
 if you use Q-Learning system by learning 
 > python3 QLprocon2018.py
+
 if you use Monte Carlo Method system by learning
 > python3 mcl0917.py
 

@@ -16,7 +16,7 @@ This learns by following the steps below.
   * update q table  
 4.save q table(result)
 
-### Monte Calro Method
+### Monte Carlo Method
 1.read q table which is 'Action Value Function'.  
 2.initialize learning environment.  
 3.learning (loop)  

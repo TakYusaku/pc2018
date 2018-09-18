@@ -1,7 +1,9 @@
 pc2018
 ====
 ## Description
-This is a system which to win Encampment game of 'Programming Contest 2018' (Competitive Part).　　This system is 'Reinforcement Learning'.　　This learns by following the steps below
+This is a system which to win Encampment game of 'Programming Contest 2018' (Competitive Part).　　
+This system is 'Reinforcement Learning'.　　
+This learns by following the steps below.
 ### Q - Learning
 
 1.read q table which is 'Action Value Function'.

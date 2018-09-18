@@ -52,7 +52,7 @@ if you use Monte Carlo Method system for learning
 i want Kota to make Enemy system.  
 1. calculate the best move  
 2. return direction(including stay) or remove panel   
-
+こうたの担当は， Description の★のところで，  
 引数を，ターン数/フィールド情報(サイズ，得点)/初期位置/として，最善手を計算し，  
 1．”移動するなら方向を番号で（以下に示す）”，  
 2．”移動するなら方向を番号で（以下に示す）”，  

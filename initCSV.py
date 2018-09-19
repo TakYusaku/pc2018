@@ -3,6 +3,7 @@
 
 import csv
 import numpy as np
+import sys
 
 """
 with open('data.csv', 'r') as file:
@@ -13,6 +14,7 @@ print(a)
 """
 q_table = np.zeros((144, 9))
 
-with open('q_table_QL.csv', 'w') as file:
+fn = 'q_table_' + sys.argv[1] + '.csv'
+with open(fn, 'w') as file:
     writer = csv.writer(file, lineterminator='\n')
     writer.writerows(q_table)

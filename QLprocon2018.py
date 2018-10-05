@@ -2,7 +2,6 @@
 # https://qiita.com/ishizakiiii/items/75bc2176a1e0b65bdd16
 # learning agent by Q-learning
 
-import gym.envs.myenv
 import gym
 import requests
 import numpy as np

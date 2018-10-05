@@ -6,7 +6,7 @@ import gym
 import requests
 import numpy as np
 import csv
-#import matplotlib.pyplot as pl
+import matplotlib.pyplot as pl
 #import # 敵のデータ
 
 # update Qtables
@@ -65,6 +65,12 @@ def readQtable(type):
 
     return q_table
 
+def writeQtable(type, q_table):
+    fn = 'q_table_' + type + '.csv'
+    with open(fn, 'w') as file:
+        writer = csv.writer(file, lineterminator='\n')
+        writer.writerows(q_table)
+
 
 def gA_Enemy(env, q_table, observation):
     position = env.getStatus(observation)
@@ -80,12 +86,11 @@ def gA_Enemy(env, q_table, observation):
         a.append([d, ms, next_pos])
     return a
 
-
+"""
 # [] main processing
 if __name__ == '__main__':
     # [] make environment
     env = gym.make('procon18env-v0')
-    #ene = .make('') # make enemy
     num_episode = 10
 
     is_learned = 0 #学習終了フラグ
@@ -98,14 +103,14 @@ if __name__ == '__main__':
 
     # read q tables from csv file
     q_table = readQtable('QL')
-    #q_table_Enemy = readQtable('MCM')
+    q_table_Enemy = readQtable('MCM')
 
 
     #learning
     for episode in range(num_episode):
         #initialization environments
         observation = env._reset(episode+1) #array
-        #observation_Enemy = env._observe('E')
+        observation_Enemy = env._observe('E')
         terns = env.num_terns
         row = env.Row
         column = env.Column
@@ -115,23 +120,25 @@ if __name__ == '__main__':
             env.steps = i+1
             # choose action (num)
             action = getAction(env, q_table, observation, episode) # list
-            #enemy_action = gA_Enemy(env, q_table_Enemy, observation_Enemy)
-            """
-            for i in range(2):
-                if action[i][2] == enemy_action[i][2]: # 移動先が被ったら停留
-                    action[i][0] == 4
-                    enemy_action[i][0] == 4
-            """
+            enemy_action = gA_Enemy(env, q_table_Enemy, observation_Enemy)
+
+
+        for i in range(2):
+            if action[i][2] == enemy_action[i][2]: # 移動先が被ったら停留
+                action[i][0] == 4
+                enemy_action[i][0] == 4
+
+
             # step
             next_observation, reward, done, _ = env._step(action, "Q")
-            #next_observation_enemy = env._step(enemy_action)
+            next_observation_enemy = env._step(enemy_action)
 
             # update q_table
             q_table = updateQtable(env, q_table, observation, action, reward, next_observation)
             total_reward += reward
 
             observation = next_observation
-            #observation_Enemy = next_observation_enemy
+            observation_Enemy = next_observation_enemy
 
         a = np.array([episode + 1, total_reward])
         print(env.judVoL())
@@ -146,6 +153,4 @@ if __name__ == '__main__':
     with open('q_table_QL.csv', 'w') as file:
         writer = csv.writer(file, lineterminator='\n')
         writer.writerows(q_table)
-
-    print(win1)
-    print(win2)
+"""

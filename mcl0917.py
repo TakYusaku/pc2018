@@ -1,6 +1,5 @@
 # learning agent by Monte Carlo method
 
-import gym.envs.myenv
 import gym
 import requests
 import numpy as np
@@ -65,7 +64,7 @@ class Memory:
     def len(self):
         return len(self.buffer)
 
-
+"""
 # [] main processing
 if __name__ == '__main__':
     # [] make environment
@@ -98,20 +97,20 @@ if __name__ == '__main__':
         total_reward = 0
         memory1 = Memory(terns)
         memory2 = Memory(terns)
-        #ene.initEnemy(env.goE(), terns, row, column)  # initial enemy
 
         for i in range(terns):
             env.steps = i+1
             # choose action (num)
             ob = env.getStatus(observation)
             action = getAction(env, q_table, observation, episode) # array
-            """
+
+
             enemy_action = ene.get_enemy_Action() # array [int, int]
             for i in range(2):
                 if action[i][3] == enemy_action[i][1]: # 移動先が被ったら停留
                     action[i][0] == 4
                     enemy_action[i][0] == 4
-            """
+
 
             # step
             next_observation, reward, done, _ = env._step(action, "M")
@@ -143,3 +142,4 @@ if __name__ == '__main__':
 
     print(win1)
     print(win2)
+"""

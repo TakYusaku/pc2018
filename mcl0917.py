@@ -10,18 +10,22 @@ import time
 import threading
 #import # 敵のデータ
 
-def getAction(env, q_table, observation, episode): # get action (array)
+def getAction(env, q_table, observation, episode,choice): # get action (array)
     epsilon = 0.5 * (1 / (episode + 1))
     a = []
     b = False
+    if choice == 0:
+        n = 0
+    elif choice == 1:
+        n = 2
+
     for i in range(2):
         if np.random.uniform(0, 1) > epsilon:  # e-greedy low is off
-            position = env.getStatus(observation)
-            x = np.argsort(-q_table[position[i]])
+            x = np.argsort(q_table[observation[i]])[::-1]
             b = False
             c = 0
             while b!=True:
-                b, d, ms, next_pos = env.judAc(i+1, x[c])
+                b, d, ms, next_pos = env.judAc(i+1+n, x[c])
                 c += 1
             a.append([d, ms, next_pos])
 
@@ -29,7 +33,7 @@ def getAction(env, q_table, observation, episode): # get action (array)
             b = False
             while b!=True:
                 pa = np.random.choice([0, 1, 2, 3, 4, 5, 6, 7, 8])
-                b, d, ms, next_pos = env.judAc(i+1, pa)
+                b, d, ms, next_pos = env.judAc(i+1+n, pa)
             a.append([d, ms, next_pos])
 
     return a  # [[int(direction), str(movement), list(next position)],[]]

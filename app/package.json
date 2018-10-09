@@ -1,0 +1,16 @@
+{
+  "name": "pc2018_app",
+  "version": "1.0.0",
+  "description": "20181008",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tkhashi",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
+  }
+}

@@ -7,14 +7,74 @@ import matplotlib.pyplot as plt
 from collections import deque
 import time
 import threading
+from texttable import Texttable
 import QLprocon2018 as Q
 import mcl0917 as M
+import linenotify
+
+def saveImage():
+    plt.subplot(2,2,1)
+    plt.plot(s3, 'r', label="QL")
+    plt.plot(s6, 'b', label="MCM")
+    plt.xlim(0, episode)
+    plt.ylim(-500, 500)
+    plt.xlabel("epoch")
+    plt.ylabel("total point")
+    plt.legend(loc='lower right')
+    plt.subplot(2,2,3)
+    plt.plot(s1, 'r', label="QL")
+    plt.plot(s4, 'b', label="MCM")
+    plt.xlim(0, episode)
+    plt.ylim(-500, 500)
+    plt.xlabel("epoch")
+    plt.ylabel("tilepoint")
+    plt.legend(loc='lower right')
+    plt.subplot(2,2,4)
+    plt.plot(s2, 'r', label="QL")
+    plt.plot(s5, 'b', label="MCM")
+    plt.xlim(0, episode)
+    plt.ylim(-500, 500)
+    plt.xlabel("epoch")
+    plt.ylabel("fieldpoint")
+    plt.legend(loc='lower right')
+    plt.savefig('result_point.png')
+
+    plt.figure()
+    plt.plot(f_rr, 'r', label="QL")
+    plt.plot(e_rr, 'b', label="MCM")
+    plt.xlim(0, episode)
+    plt.ylim(-500, 500)
+    plt.xlabel("epoch")
+    plt.ylabel("reward")
+    plt.legend(loc='lower right')
+    plt.savefig('result_reward.png')
+
+def notify():
+    table = Texttable()
+    ended_mess = "Learning was successful!\n"
+    epoch_mess = "epoch is " + str(num_episode) + "\n"
+    result_mess = "How many times did QL win?\n" + str(Win1) + "\n" + "How many times did MCM win?\n" + str(Win2) + "\n"
+    finaltotalPoint_mess = "{total point}\n" + "[final point]\n" + "QL is " + str(s3[num_episode-1]) + "\n" + "MCM is " + str(s6[num_episode-1]) + "\n"
+    maxtotalPoint_mess = "[max point]\n" + "QL is " + str(max(s3)) + "\n" + "MCM is " + str(max(s6)) + "\n"
+    mintotalPoint_mess = "[min point]\n" + "QL is " + str(min(s3)) + "\n" + "MCM is " + str(min(s6)) + "\n"
+    finaltilePoint_mess = "{tile point}\n" + "[final point]\n" + "QL is " + str(s1[num_episode-1]) + "\n" + "MCM is " + str(s4[num_episode-1]) + "\n"
+    maxtilePoint_mess = "[max point]\n" + "QL is " + str(max(s1)) + "\n" + "MCM is " + str(max(s4)) + "\n"
+    mintilePoint_mess = "[min point]\n" + "QL is " + str(min(s1)) + "\n" + "MCM is " + str(min(s4)) + "\n"
+    finalpanelPoint_mess = "{panel point}\n" + "[final point]\n" + "QL is " + str(s2[num_episode-1]) + "\n" + "MCM is " + str(s2[num_episode-1]) + "\n"
+    maxpanelPoint_mess = "[max point]\n" + "QL is " + str(max(s2)) + "\n" + "MCM is " + str(max(s5)) + "\n"
+    minpanelPoint_mess = "[min point]\n" + "QL is " + str(min(s2)) + "\n" + "MCM is " + str(min(s5)) + "\n"
+    mess = ended_mess + epoch_mess + result_mess + finaltotalPoint_mess + maxtotalPoint_mess + mintotalPoint_mess + finaltilePoint_mess + maxtilePoint_mess + mintilePoint_mess + finalpanelPoint_mess + maxpanelPoint_mess + minpanelPoint_mess
+    fig_name = ['result_point.png', 'result_reward.png']
+    #table.add_rows(['total','final','max','min'],['QL',str(s3[num_episode-1]),str(max(s3)),str(min(s3))],['MCM',str(s6[num_episode-1]),str(max(s6)),str(min(s6))])
+    linenotify.main_m(mess)
+    for i in range(2):
+        linenotify.main_f(fig_name[i],fig_name[i])
 
 # [] main processing
 if __name__ == '__main__':
     # [] make environment
     env = gym.make('procon18env-v0')
-    num_episode = 500
+    num_episode = 3
     Win1 = 0
     Win2 = 0
 
@@ -96,51 +156,53 @@ if __name__ == '__main__':
             e_r.append(1)
             Win2 += 1
             print('Win2')
-
-        #plt.subplot(1,2,1)
-        #plt.figure()
-        """
-        plt.plot(f_rr, 'r')
-        plt.plot(e_rr, 'b')
-        plt.xlim(0, episode)
-        plt.ylim(-500, 500)
-        plt.xlabel("epoch")
-        plt.ylabel("reward")
         """
         plt.subplot(2,2,1)
-        plt.plot(s3, 'r')
-        plt.plot(s6, 'b')
+        plt.plot(s3, 'r', label="QL")
+        plt.plot(s6, 'b', label="MCM")
         plt.xlim(0, episode)
         plt.ylim(-500, 500)
         plt.xlabel("epoch")
         plt.ylabel("total point")
+        plt.legend(loc='lower right')
         plt.subplot(2,2,3)
-        plt.plot(s1, 'r')
-        plt.plot(s4, 'b')
+        plt.plot(s1, 'r', label="QL")
+        plt.plot(s4, 'b', label="MCM")
         plt.xlim(0, episode)
         plt.ylim(-500, 500)
         plt.xlabel("epoch")
         plt.ylabel("tilepoint")
+        plt.legend(loc='lower right')
         plt.subplot(2,2,4)
-        plt.plot(s2, 'r')
-        plt.plot(s5, 'b')
+        plt.plot(s2, 'r', label="QL")
+        plt.plot(s5, 'b', label="MCM")
         plt.xlim(0, episode)
         plt.ylim(-500, 500)
         plt.xlabel("epoch")
         plt.ylabel("fieldpoint")
-        plt.pause(0.0001)
+        plt.legend(loc='lower right')
+        if episode == num_episode - 1:
+            plt.savefig('result_point.png')
+        else:
+            plt.pause(0.0001)
+        """
 
-    plt.figure()
-    plt.plot(f_rr, 'r')
-    plt.plot(e_rr, 'b')
-    plt.xlim(0, episode)
-    plt.ylim(-500, 500)
-    plt.xlabel("epoch")
-    plt.ylabel("reward")
-    plt.show()
     Q.writeQtable("QL", q_table)
     Q.writeQtable("MCM", q_table_Enemy)
     print("How many times did QL win?")
     print(Win1)
     print("How many times did MCM win?")
     print(Win2)
+    """
+    plt.figure()
+    plt.plot(f_rr, 'r', label="QL")
+    plt.plot(e_rr, 'b', label="MCM")
+    plt.xlim(0, episode)
+    plt.ylim(-500, 500)
+    plt.xlabel("epoch")
+    plt.ylabel("reward")
+    plt.legend(loc='lower right')
+    plt.savefig('result_reward.png')
+    """
+    saveImage()
+    notify()

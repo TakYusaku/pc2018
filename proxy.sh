@@ -1,12 +1,11 @@
 #!/bin/sh
 
 if test $1 = "1" ; then
-  export http_proxy="http://http-p.srv.cc.suzuka-ct.ac.jp:8080"
-  export https_proxy="http://http-p.srv.cc.suzuka-ct.ac.jp:8080"
+  git config --global http.proxy http://http-p.srv.cc.suzuka-ct.ac.jp:8080
+  git config --global https.proxy http://http-p.srv.cc.suzuka-ct.ac.jp:8080
 elif test $1 = "0" ; then
-  export http_proxy=""
-  export https_proxy=""
+  git config --global --unset http.proxy
+  git config --global --unset https.proxy
 fi
 
-echo "http_proxy is ${http_proxy} "
-echo "https_proxy is ${https_proxy} "
+git config --list

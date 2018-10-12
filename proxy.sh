@@ -8,4 +8,4 @@ elif test $1 = "0" ; then
   git config --global --unset https.proxy
 fi
 
-git config --list
+git config --list | grep proxy

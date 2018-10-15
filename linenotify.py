@@ -26,9 +26,5 @@ def main_f(message,figname):
 
 
 if __name__ == '__main__':
-    mess = "Hello World\n" + "Ohh!"
-    fig_name = ['result_point.png', 'result_reward.png']
-    main_m(mess)
-    for i in range(2):
-        m = fig_name[i]
-        main_f(m,fig_name[i])
+    m = "https://item.rakuten.co.jp/denpcy/11838002/?scid=af_pc_etc&sc2id=af_102_1_10000903#10002463"
+    main_m(m)

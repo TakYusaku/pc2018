@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from collections import deque
 import time
 import threading
+import datetime
 from texttable import Texttable
 import QLprocon2018 as Q
 import mcl0917 as M
@@ -50,7 +51,7 @@ def saveImage():
     plt.savefig('result_reward.png')
 
 def notify():
-    table = Texttable()
+    #table = Texttable()
     ended_mess = "Learning was successful!\n"
     epoch_mess = "epoch is " + str(num_episode) + "\n"
     result_mess = "How many times did QL win?\n" + str(Win1) + "\n" + "How many times did MCM win?\n" + str(Win2) + "\n"
@@ -73,8 +74,12 @@ def notify():
 # [] main processing
 if __name__ == '__main__':
     # [] make environment
+    now = datetime.datetime.now()
+    m = "start time is " + str(now)
+    linenotify.main_m(m)
+
     env = gym.make('procon18env-v0')
-    num_episode = 3
+    num_episode = 10000
     Win1 = 0
     Win2 = 0
 
@@ -156,6 +161,15 @@ if __name__ == '__main__':
             e_r.append(1)
             Win2 += 1
             print('Win2')
+
+        if episode%500 == 0 and episode!=num_episode-1 :
+            saveImage()
+            now = datetime.datetime.now()
+            m = "epoch is " + str(episode) + " now.\n" + "Win1 is " + str(Win1) + "\n" + "Win2 is " + str(Win2) + "\n" + "now time is " + str(now)
+            linenotify.main_m(m)
+            fig_name = ['result_point.png', 'result_reward.png']
+            for i in range(2):
+                linenotify.main_f(fig_name[i],fig_name[i])
         """
         plt.subplot(2,2,1)
         plt.plot(s3, 'r', label="QL")
@@ -206,3 +220,6 @@ if __name__ == '__main__':
     """
     saveImage()
     notify()
+    now = datetime.datetime.now()
+    m = "finished time is " + str(now)
+    linenotify.main_m(m)

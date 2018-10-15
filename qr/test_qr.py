@@ -17,11 +17,12 @@ def edit_contrast(image, gamma):
     return result_image
 
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
+def Decode():
     capture = cv2.VideoCapture(0)
     if capture.isOpened() is False:
         raise("IO Error")
-
+    r = []
     while True:
         ret, frame = capture.read()
         if ret == False:
@@ -35,5 +36,16 @@ if __name__ == "__main__":
         codes = decode(image)
 
         if len(codes) > 0:
-            for code in codes:
-                print(code)
+            f = codes[0][0].decode(encoding='utf-8').replace(":"," ")
+            iv_list = [int(i) for i in f.split()]
+            row = iv_list[0]
+            column = iv_list[1]
+            r.append([row,column])
+            size = row * column
+            del iv_list[0:2]
+            init_pos = [[iv_list[size],iv_list[size + 1]],[iv_list[size + 2],iv_list[size + 3]]]
+            del iv_list[size:]
+            r.append(init_pos)
+            r.append(iv_list)
+            break
+    return r

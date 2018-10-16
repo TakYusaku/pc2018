@@ -111,7 +111,7 @@ if __name__ == '__main__':
     #learning
     for episode in range(num_episode):
         #initialization environments
-        observation = env._reset(episode+1) #array
+        observation = env.reset(episode+1) #array
         observation_Enemy = env._observe('E')
         terns = env.num_terns
         row = env.Row
@@ -132,8 +132,8 @@ if __name__ == '__main__':
 
 
             # step
-            next_observation, reward, done, _ = env._step(action, "Q")
-            next_observation_enemy = env._step(enemy_action)
+            next_observation, reward, done, _ = env.step(action, "Q")
+            next_observation_enemy = env.step(enemy_action)
 
             # update q_table
             q_table = updateQtable(env, q_table, observation, action, reward, next_observation)

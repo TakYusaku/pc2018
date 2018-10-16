@@ -9,12 +9,14 @@ sys.path.append('../qr')
 import test_qr as qr
 import playgame
 import requests
+import json
 
 app = Flask(__name__)
 field_info = []
 terns = 0
 enemy_1 = []
 enemy_2 = []
+
 
 @app.route("/")
 def hello():
@@ -27,15 +29,24 @@ def readQR():
     field_info = qr.Decode()
     return render_template('post_fieldinfo.html')
 
-@app.route("/field_info",methods=["POST"])
+@app.route("/field_info",methods=["GET","POST"])
 def fieldInfo():
+    global terns,enemy_1,enemy_2
     if request.method == "POST":
         getInfo = request.form.getlist("info")
-        global terns,enemy_1,enemy_2
         terns = int(getInfo[0])
         enemy_1 = [int(getInfo[1]),int(getInfo[2])]
         enemy_2 = [int(getInfo[3]),int(getInfo[4])]
-    return render_template('playgame.html')
+        return render_template('playgame.html')
+    elif request.method == "GET":
+        global field_info
+        info = {
+            "gameTerns":terns,
+            "fieldSize":field_info[0],
+            "pointField":field_info[2]
+        }
+        return info
+
 
 @app.route("/play",methods=["POST"])
 def playGame():

@@ -94,7 +94,7 @@ if __name__ == '__main__':
     q_table = np.array(a)
 
     for episode in range(num_episode):
-        observation = env._reset(episode+1) #array
+        observation = env.reset(episode+1) #array
         terns = env.num_terns
         row = env.Row
         column = env.Column
@@ -117,7 +117,7 @@ if __name__ == '__main__':
 
 
             # step
-            next_observation, reward, done, _ = env._step(action, "M")
+            next_observation, reward, done, _ = env.step(action, "M")
             #ene.step(enemy_action)
 
             memory1.add((ob[0], action[0], reward))

@@ -4,7 +4,7 @@ import requests
 
 def main_m(message):
     url = "https://notify-api.line.me/api/notify"
-    token = "GHJQgEc3BZ0dXYYirYi9DG0v6KYw7wD9hFUPCLlmkON"
+    token = "token"
     headers = {"Authorization" : "Bearer "+ token}
 
     #message =  'ここにメッセージを入れます'

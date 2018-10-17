@@ -25,6 +25,3 @@ def main_f(message,figname):
     r = requests.post(url ,headers = headers ,params=payload,files=files)
 
 
-if __name__ == '__main__':
-    m = "https://item.rakuten.co.jp/denpcy/11838002/?scid=af_pc_etc&sc2id=af_102_1_10000903#10002463"
-    main_m(m)

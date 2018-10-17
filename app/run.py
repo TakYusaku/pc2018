@@ -33,7 +33,7 @@ def gaStr(action): # get action str // verified
 
 app = Flask(__name__)
 terns = 0
-game = pg.Play(terns,"QL")
+game = pg.Play()
 field_info = []
 enemy_1 = []
 enemy_2 = []
@@ -60,7 +60,7 @@ def readQR():
     try:
         response = requests.post('http://localhost:6000/init', headers=headers, data=data)
         if response:
-            pass:
+            pass
         else:
             return """<script type="text/javascript">
             　           alert("False")
@@ -91,7 +91,7 @@ def fieldInfo():
         try:
             response = requests.post('http://localhost:6000/init/enemy', headers=headers, data=data)
             if response:
-                pass:
+                pass
             else:
                 return """<script type="text/javascript">
                 　           alert("False")
@@ -106,7 +106,7 @@ def fieldInfo():
 @app.route("/play_start")
 def playGame():
     global game,terns
-    game = pg.Play(terns,"QL")
+    game.reset(terns,"QL")
     html = render_template('start.html')
     return html
 

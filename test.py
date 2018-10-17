@@ -39,7 +39,7 @@ def saveImage():
     plt.xlabel("epoch")
     plt.ylabel("fieldpoint")
     plt.legend(loc='lower right')
-    plt.savefig('result_point.png')
+    plt.savefig('./result/result_point.png')
 
     plt.figure()
     plt.plot(f_rr, 'r', label="QL")
@@ -49,7 +49,7 @@ def saveImage():
     plt.xlabel("epoch")
     plt.ylabel("reward")
     plt.legend(loc='lower right')
-    plt.savefig('result_reward.png')
+    plt.savefig('./result/result_reward.png')
 
 def notify(num_episode,Win1,Win2,s1,s2,s3,s4,s5,s6):
     #table = Texttable()

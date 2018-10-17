@@ -3,7 +3,7 @@ import csv
 import requests
 
 class Play:
-    def __init__(self,terns,qtable_type):
+    def reset(self,terns,qtable_type):
         self.terns = terns
         pos = self.getPosition()
         self.friends_pos = pos[0]
@@ -11,7 +11,7 @@ class Play:
         self.q_table = self.readQtable(qtable_type)
 
     def readQtable(self,type):
-        fn = 'q_table_' + type + '.csv'
+        fn = '../q_table_' + type + '.csv'
         with open(fn, 'r') as file:
             lst = list(csv.reader(file))
         a = []

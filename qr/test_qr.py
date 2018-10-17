@@ -7,7 +7,6 @@ import numpy as np
 
 
 def edit_contrast(image, gamma):
-    """コントラクト調整"""
     look_up_table = [np.uint8(255.0 / (1 + np.exp(-gamma * (i - 128.) / 255.)))
         for i in range(256)]
 

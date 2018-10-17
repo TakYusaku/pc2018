@@ -4,7 +4,11 @@ import requests
 
 def main_m(message):
     url = "https://notify-api.line.me/api/notify"
+<<<<<<< HEAD
     token = "送信先のtoken"
+=======
+    token = "token"
+>>>>>>> origin/master
     headers = {"Authorization" : "Bearer "+ token}
 
     #message =  'ここにメッセージを入れます'
@@ -23,3 +27,8 @@ def main_f(message,figname):
     files = {"imageFile": open(figname, "rb")}
 
     r = requests.post(url ,headers = headers ,params=payload,files=files)
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/master

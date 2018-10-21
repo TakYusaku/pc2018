@@ -269,6 +269,30 @@ func JudgeServer(w http.ResponseWriter, r *http.Request) { // ;;;
     // user[p[u]["x"]][p[u]["y"]]=u
 }
 
+func InitServer(w http.ResponseWriter, r *http.Request) {
+  r.ParseForm()
+  fieldSize:=r.Form["fieldSize"]
+  initPosition:=r.Form["initPosition"]
+  PointField:=r.Form["PointField"]
+  fmt.Println(fieldSize)
+  fmt.Println(initPosition)
+  fmt.Println(PointField)
+  length=fieldSize[0]
+  width=fieldSize[1]
+  field=make([][]int,length)
+  count:=0
+  for i:=0; i<length; i++{
+    field[i]=make([]int, width)
+    for j:=0; j<width; j++ {
+      field[i][j]=PointField[count]
+      count++
+      fmt.Fprintf(w,"%d ",field[i][j])
+    }
+    fmt.Fprintf(w,"\n")
+  }
+
+}
+
 func main() {
     // http.HandleFuncにルーティングと処理する関数を登録
     http.HandleFunc("/start", StartServer)
@@ -277,6 +301,7 @@ func main() {
     http.HandleFunc("/show", ShowServer)
     http.HandleFunc("/usrpoint", UsrpointServer)
     http.HandleFunc("/judgedirection", JudgeServer)
+    http.HandleFunc("/init", InitServer)
 
     // ログ出力
     log.Printf("Start Go HTTP Server")

@@ -69,3 +69,23 @@ class Play:
 
         a =  np.array([obs1[1]*12 + obs1[0], obs2[1]*12 + obs2[0]])
         return a
+
+    def gaStr(self,action): # get action str // verified
+        if action == 0:
+            return "lu"
+        elif action == 1:
+            return "u"
+        elif action == 2:
+            return "ru"
+        elif action == 3:
+            return "l"
+        elif action == 4:
+            return "s"
+        elif action == 5:
+            return "r"
+        elif action == 6:
+            return "ld"
+        elif action == 7:
+            return "d"
+        elif action == 8:
+            return "rd"

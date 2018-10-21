@@ -4,6 +4,8 @@ from pyzbar.pyzbar import decode
 from pyzbar.pyzbar import ZBarSymbol
 import cv2
 import numpy as np
+import json
+import requests
 
 
 def edit_contrast(image, gamma):
@@ -47,4 +49,30 @@ def Decode():
             r.append(init_pos)
             r.append(iv_list)
             break
+    print(r)
     return r
+
+if __name__ == "__main__":
+    field_info = Decode()
+    """
+    tmp=""
+    for i in field_info:
+        tmp=tmp+str(field_info[i])+" "
+    field_info=tmp
+    print(field_info)
+    """
+    info = {
+        "fieldSize":field_info[0],
+        "initPosition":field_info[1],
+        "PointField":field_info[2]
+    }
+    print(info)
+    #data = json.dumps(info)  headers=headers,
+
+    data = {
+        'point':field_info,
+        'size':'hello'
+    }
+    #try:
+    response = requests.post('http://localhost:8000/init', data=info)
+    #except:

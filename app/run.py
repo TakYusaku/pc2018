@@ -20,6 +20,7 @@ enemy_1 = []
 enemy_2 = []
 
 
+
 @app.route("/")  # ok
 def hello():
     html = render_template('top.html')
@@ -27,7 +28,7 @@ def hello():
 
 @app.route("/read_qr") # ok
 def readQR():
-    global field_info
+    global field_info,game
     field_info = qr.Decode()
     info = {
         "fieldSize":field_info[0],
@@ -37,54 +38,34 @@ def readQR():
     headers = {
         'Content-Type': 'application/json',
     }
+    game.reset(terns,"QL")
     #data = json.dumps(info)
     try:
         response = requests.post('http://localhost:8000/init', data=info) # headers=headers,
     except:
-        return ender_template('error_qr.html')
+        return ender_template('error.html')
 
     return ender_template('post_fieldinfo.html')
 
 
-@app.route("/enemy_info",methods=["POST"])
+@app.route("/added_info",methods=["POST"]) # ok
 def fieldInfo():
-    global terns,enemy_1,enemy_2
+    global terns
     if request.method == "POST":
         getInfo = request.form.getlist("info")
-        terns = int(getInfo[0])
-        enemy_1 = [int(getInfo[1]),int(getInfo[2])]
-        enemy_2 = [int(getInfo[3]),int(getInfo[4])]
-        info = {
-            "terns":terns,
-            "init_e_Position":[enemy_1,enemy_2]
-        }
-        headers = {
-            'Content-Type': 'application/json',
-        }
-        #data = json.dumps(info)
-        try:
-            response = requests.post('http://localhost:8000/init/enemy_info', data=data) #  headers=headers,
-            if response:
-                pass
-            else:
-                return """<script type="text/javascript">
-                　           alert("False")
-                          </script>"""
-        except:
-            return """<script type="text/javascript">
-            　           alert("error")
-                      </script>"""
+        terns = int(getInfo)
         return render_template('playgame.html')
 
 
-@app.route("/play_start")
-def playGame():
-    global game,terns
-    game.reset(terns,"QL")
-    html = render_template('start.html')
-    return html
+@app.route("/play/e_action",methods=["GET","POST"])
+def eAction():
+    global game
+    if request.method == "POST": # data = {"action":"move or remove", "direction":"lu"}
+        data = request.data
+        r = game.doAction(data,2,)
+        return True
 
-@app.route("/play/action",methods=["GET","POST"])
+@app.route("/play/get_action",methods=["GET","POST"])
 def playGame():
     global game
     if request.method == "GET":
@@ -95,7 +76,7 @@ def playGame():
         if dt["collision_or_not"]:
             response = requests.post('')
         else:
-            r = game.doAction(dt["actions"])
+            r = game.doAction(dt["actions"],0)
         return True
 """
 data = {

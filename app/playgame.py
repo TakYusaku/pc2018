@@ -3,14 +3,16 @@ import csv
 import requests
 
 class Play:
-    def reset(self,terns,qtable_type):
+    def reset(self,terns,size,qtable_type): # ok
         self.terns = terns
-        pos = self.getPosition()
-        self.friends_pos = pos[0]
-        self.enemies_pos = pos[1]
+        self.size = size
+        self.friends_pos = []
+        for i in range(2):
+            self.friends_pos.append(elf.getPosition(i+1))
+        self.enemies_pos = [[self.size[0]-(self.friends_pos[0][0]+1),self.size[1]-(self.friends_pos[0][1]+1)],[self.size[0]-(self.friends_pos[1][0]+1),self.size[1]-(self.friends_pos[1][1]+1)]]
         self.q_table = self.readQtable(qtable_type)
 
-    def readQtable(self,type):
+    def readQtable(self,type): # ok
         fn = '../q_table_' + type + '.csv'
         with open(fn, 'r') as file:
             lst = list(csv.reader(file))
@@ -21,12 +23,14 @@ class Play:
 
         return q_table
 
-    def getPosition(self):
-        headers = {"content-type": "application/json"}
-        response = requests.post('http://localhost:6000/getposition',headers=headers).json()
-        friends_pos = [response["friendsPosition_1"],response["friendsPosition_2"]]
-        enemies_pos = [response["enemiesPosition_1"],response["enemiesPosition_2"]]
-        return [friends_pos,enemies_pos]
+    def getPosition(self, usr): # ok
+        data = [
+          ('usr', usr),
+        ]
+        response = requests.post('http://localhost:8000/usrpoint', data=data)
+        f = response.text.encode('utf-8').decode().replace("\n", " ").replace("  "," ")
+        pos_array =[int(i) for i in f.split()]
+        return pos_array
 
     def getAction(self):
         a = []
@@ -54,14 +58,21 @@ class Play:
                 c += 1
         return a
 
-    def doAction(self,action):
-        for i in range(2):
-            headers = {"content-type": "application/json"}
+    def doAction(self,data,f_or_e):
+        if data["action"] == "remove":
             data = {
-                "agent_num":i+1,
-                "steps":action[i]
+                "usr":str(i+1+f_or_e),
+                "d":action[i]
             }
-            response = requests.post('http://localhost:6000/judgeaction/action',headers=headers,data=data).json()
+            response = requests.post('http://localhost:8000/remove',data=data)
+        """
+        for i in range(2):
+            data = {
+                "usr":str(i+1+f_or_e),
+                "d":action[i]
+            }
+            response = requests.post('http:/_/localhost:8000/judgeaction/action',data=data)
+        """
 
     def getStatus(self, observation):
         obs1 = observation[0]

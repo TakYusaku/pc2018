@@ -18,6 +18,8 @@ game = pg.Play()
 field_info = []
 enemy_1 = []
 enemy_2 = []
+a_cnt = [0,0]
+action = []
 
 
 
@@ -62,22 +64,25 @@ def eAction():
     global game
     if request.method == "POST": # data = {"action":"move or remove", "direction":"lu"}
         data = request.data
-        r = game.doAction(data,2,)
+        r = game.doAction(data,2)
         return True
 
 @app.route("/play/get_action",methods=["GET","POST"])
-def playGame():
-    global game
+def getAction():
+    global game,a_cnt,action
     if request.method == "GET":
-        a = game.getAction()
+        a, a_cnt = game.getAction(a_cnt)
+        action = a
         return a
-    elif request.method == "POST":
-        data = request.data
-        if dt["collision_or_not"]:
-            response = requests.post('')
-        else:
-            r = game.doAction(dt["actions"],0)
-        return True
+
+@app.route("/play/do_action",methods=["GET","POST"])
+def Do():
+    global game,a_cnt
+    r = game.doAction(action,0)
+    a_cnt = [0,0]
+    return True
+
+
 """
 data = {
     "collision_or_not": True or False,
@@ -85,5 +90,5 @@ data = {
 }
 """
 if __name__ == "__main__":
-    print('on hello')
+    print('start application')
     app.run(host="127.0.0.1", port=5000)

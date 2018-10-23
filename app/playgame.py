@@ -32,31 +32,35 @@ class Play:
         pos_array =[int(i) for i in f.split()]
         return pos_array
 
-    def getAction(self):
+
+    def getAction(self,cnt):
         a = []
-        b = False
+        c = cnt
+        cnt_a = []
         observation = self.getStatus(self.friends_pos)
         for i in range(2):
             x = np.argsort(self.q_table[observation[i]])[::-1]
             b = False
-            c = 0
             while b!=True:
-                headers = {"content-type": "application/json"}
-                data = {
-                    "agent_num":i+1,
-                    "steps":x[c]
-                }
-                response = requests.post('http://localhost:6000/judgeaction',headers=headers,data=data).json()
-                if response["bool"] == True:
+                data = [
+                  ('usr', i+1),
+                  ('d', self.gaStr(x[c[i]])),
+                ]
+                f = requests.post('http://localhost:8000/judgedirection', data = data).text.encode('utf-8').decode().replace("\n", " ").replace("  "," ")
+                iv_list = [i for i in f.split()]
+                i = [int(iv_list[0]),int(iv_list[1])]
+                if iv_list[2] == "Error":
+                    c[i] += 1
+                elif iv_list[2] == "is_panel":
+                    a.append(["remove", self.gaStr(x[c[i]])])
                     b = True
-                    ms = "move"
-                    a.append([ms, x[c]])
-                elif response["bool"] == False and response["message"] == "RP":
+                    cnt_a.append(c[i]+1)
+                else:
+                    a.append(["move", self.gaStr(x[c[i]])])
                     b = True
-                    ms = "remove"
-                    a.append([ms, x[c]])
-                c += 1
-        return a
+                    cnt_a.append(c[i]+1)
+        return a,cnt_a
+
 
     def doAction(self,data,f_or_e):
         if data["action"] == "remove":
@@ -65,6 +69,12 @@ class Play:
                 "d":action[i]
             }
             response = requests.post('http://localhost:8000/remove',data=data)
+        elif data["action"] == "move":
+            data = {
+                "usr":str(i+1+f_or_e),
+                "d":action[i]
+            }
+            response = requests.post('http://localhost:8000/move',data=data)
         """
         for i in range(2):
             data = {

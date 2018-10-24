@@ -51,7 +51,7 @@ def saveImage():
     plt.legend(loc='lower right')
     plt.savefig('./result/result_reward.png')
 
-def notify(num_episode,Win1,Win2,s1,s2,s3,s4,s5,s6):
+def notify(num_episode,Win1,Win2,s3,s6):#,s3,s4,s5,s6):
     #table = Texttable()
     ended_mess = "Learning was successful!\n"
     epoch_mess = "epoch is " + str(num_episode) + "\n"
@@ -59,14 +59,16 @@ def notify(num_episode,Win1,Win2,s1,s2,s3,s4,s5,s6):
     finaltotalPoint_mess = "{total point}\n" + "[final point]\n" + "QL is " + str(s3[num_episode-1]) + "\n" + "MCM is " + str(s6[num_episode-1]) + "\n"
     maxtotalPoint_mess = "[max point]\n" + "QL is " + str(max(s3)) + "\n" + "MCM is " + str(max(s6)) + "\n"
     mintotalPoint_mess = "[min point]\n" + "QL is " + str(min(s3)) + "\n" + "MCM is " + str(min(s6)) + "\n"
+    """
     finaltilePoint_mess = "{tile point}\n" + "[final point]\n" + "QL is " + str(s1[num_episode-1]) + "\n" + "MCM is " + str(s4[num_episode-1]) + "\n"
     maxtilePoint_mess = "[max point]\n" + "QL is " + str(max(s1)) + "\n" + "MCM is " + str(max(s4)) + "\n"
     mintilePoint_mess = "[min point]\n" + "QL is " + str(min(s1)) + "\n" + "MCM is " + str(min(s4)) + "\n"
     finalpanelPoint_mess = "{panel point}\n" + "[final point]\n" + "QL is " + str(s2[num_episode-1]) + "\n" + "MCM is " + str(s2[num_episode-1]) + "\n"
     maxpanelPoint_mess = "[max point]\n" + "QL is " + str(max(s2)) + "\n" + "MCM is " + str(max(s5)) + "\n"
     minpanelPoint_mess = "[min point]\n" + "QL is " + str(min(s2)) + "\n" + "MCM is " + str(min(s5)) + "\n"
-    mess = ended_mess + epoch_mess + result_mess + finaltotalPoint_mess + maxtotalPoint_mess + mintotalPoint_mess + finaltilePoint_mess + maxtilePoint_mess + mintilePoint_mess + finalpanelPoint_mess + maxpanelPoint_mess + minpanelPoint_mess
-    fig_name = ['result_point.png', 'result_reward.png']
+    """
+    mess = ended_mess + epoch_mess + result_mess + finaltotalPoint_mess + maxtotalPoint_mess + mintotalPoint_mess #+ finaltilePoint_mess + maxtilePoint_mess + mintilePoint_mess + finalpanelPoint_mess + maxpanelPoint_mess + minpanelPoint_mess
+    fig_name = ['./result/result_point.png', './result/result_reward.png']
     #table.add_rows(['total','final','max','min'],['QL',str(s3[num_episode-1]),str(max(s3)),str(min(s3))],['MCM',str(s6[num_episode-1]),str(max(s6)),str(min(s6))])
     linenotify.main_m(mess)
     for i in range(2):
@@ -81,7 +83,7 @@ if __name__ == '__main__':
     linenotify.main_m(m)
 
     env = gym.make('procon18env-v0')
-    num_episode = 10000
+    num_episode = 5000
     Win1 = 0
     Win2 = 0
 
@@ -147,13 +149,14 @@ if __name__ == '__main__':
             f_rr.append(total_reward_f)
             e_rr.append(total_reward_e)
             s = env.calcPoint()
-            s1.append(s[0])
-            s2.append(s[1])
+            s3.append(s[0])
+            s6.append(s[1])
+            """
             s3.append(s[2])
             s4.append(s[3])
             s5.append(s[4])
             s6.append(s[5])
-
+            """
             if env.judVoL() == "Win_1":
                 f_r.append(1)
                 e_r.append(-1)
@@ -170,9 +173,10 @@ if __name__ == '__main__':
                 now = datetime.datetime.now()
                 m = "epoch is " + str(episode) + " now.\n" + "Win1 is " + str(Win1) + "\n" + "Win2 is " + str(Win2) + "\n" + "now time is " + str(now)
                 linenotify.main_m(m)
-                fig_name = ['result_point.png', 'result_reward.png']
+                fig_name = ['./result/result_point.png', './result/result_reward.png']
                 for i in range(2):
                     linenotify.main_f(fig_name[i],fig_name[i])
+
             """
             plt.subplot(2,2,1)
             plt.plot(s3, 'r', label="QL")
@@ -222,17 +226,22 @@ if __name__ == '__main__':
         plt.savefig('result_reward.png')
         """
         saveImage()
-        notify(num_episode,Win1,Win2,s1,s2,s3,s4,s5,s6)
-        now = datetime.datetime.now()
-        m = "finished time is " + str(now)
-        linenotify.main_m(m)
-    except:
-        m = str(sys.exc_info())
-        linenotify.main_m(m)
-        #Q.writeQtable("QL", q_table)
-        #Q.writeQtable("MCM", q_table_Enemy)
-        #saveImage()
+        notify(num_episode,Win1,Win2,s3,s6)
         #notify(num_episode,Win1,Win2,s1,s2,s3,s4,s5,s6)
         now = datetime.datetime.now()
         m = "finished time is " + str(now)
+        print(m)
+        linenotify.main_m(m)
+    except:
+        m = str(sys.exc_info())
+        print(m)
+        linenotify.main_m(m)
+        Q.writeQtable("QL", q_table)
+        Q.writeQtable("MCM", q_table_Enemy)
+        saveImage()
+        notify(num_episode,Win1,Win2,s3,s6)
+        #notify(num_episode,Win1,Win2,s1,s2,s3,s4,s5,s6)
+        now = datetime.datetime.now()
+        m = "(error)finished time is " + str(now)
+        print(m)
         linenotify.main_m(m)

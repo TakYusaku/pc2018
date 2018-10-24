@@ -375,8 +375,8 @@ func PointcalcServer(w http.ResponseWriter, r *http.Request) {
 
     }
   }
-  fmt.Fprintf(w,"score = %d \n",point5)
-  fmt.Fprintf(w,"score = %d ",point6)
+  fmt.Fprintf(w,"%d \n",point5)
+  fmt.Fprintf(w,"%d \n",point6)
 
 }
 

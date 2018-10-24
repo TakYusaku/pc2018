@@ -126,8 +126,8 @@ if __name__ == '__main__':
 
                 for i in range(2):
                     if action_f[i][2] == action_e[i][2]: # 移動先が被ったら停留
-                        action_f[i][0] == 4
-                        action_e[i][0] == 4
+                        action_f[i][1] == "stay"
+                        action_e[i][1] == "stay"
 
                 next_observation, reward, done, _ = env.step(action_f,action_e,terns)
                 # process (enemy_mcm)

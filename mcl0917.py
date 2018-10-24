@@ -14,10 +14,11 @@ def getAction(env, q_table, observation, episode,choice): # get action (array)
     epsilon = 0.5 * (1 / (episode + 1))
     a = []
     b = False
+    n = 2
     if choice == 0:
-        n = 0
-    elif choice == 1:
         n = 2
+    elif choice == 1:
+        n = 0
 
     for i in range(2):
         if np.random.uniform(0, 1) > epsilon:  # e-greedy low is off

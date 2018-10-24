@@ -33,6 +33,7 @@ def getAction(env, q_table, observation, episode, choice):
     epsilon = 0.5 * (1 / (episode + 1))
     a = []
     b = False
+    n = 0
     if choice == 0:
         n = 0
     elif choice == 1:

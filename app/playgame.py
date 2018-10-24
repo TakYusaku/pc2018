@@ -48,15 +48,15 @@ class Play:
                 ]
                 f = requests.post('http://localhost:8000/judgedirection', data = data).text.encode('utf-8').decode().replace("\n", " ").replace("  "," ")
                 iv_list = [i for i in f.split()]
-                i = [int(iv_list[0]),int(iv_list[1])]
+                u = [int(iv_list[0]),int(iv_list[1])]
                 if iv_list[2] == "Error":
                     c[i] += 1
                 elif iv_list[2] == "is_panel":
-                    a.append(["remove", self.gaStr(x[c[i]])])
+                    a.append(["remove", self.gaStr(x[c[i]]),u])
                     b = True
                     cnt_a.append(c[i]+1)
                 else:
-                    a.append(["move", self.gaStr(x[c[i]])])
+                    a.append(["move", self.gaStr(x[c[i]]),u])
                     b = True
                     cnt_a.append(c[i]+1)
         return a,cnt_a

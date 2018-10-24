@@ -1,4 +1,4 @@
-// vs person
+// learning only  vs user  これは使えるやつ
 package main
 
 import (
@@ -21,11 +21,11 @@ var length=0
 var width=0
 var p=make(map[int]map[string]int)
 var pcount [5]int = [5]int{0, 0, 0, 0, 0}
-var checkmove [4]int = [4]int{0, 0, 0, 0}
 
 func StartServer(w http.ResponseWriter, r *http.Request) {
     rand.Seed(time.Now().UnixNano())
     turn=rand.Intn(60)+60
+    turn=15
     length=rand.Intn(4)+8
     width=rand.Intn(4)+8
     fmt.Fprintf(w,"%d\n",turn)
@@ -109,16 +109,9 @@ func MoveServer(w http.ResponseWriter, r *http.Request) {
     //curl -X POST localhost:8000/move -d "usr=1&d=right"
     u,_:=strconv.Atoi(r.FormValue("usr"))
     fmt.Println(u)
-    if(checkmove[0]==1&&checkmove[1]==1&&checkmove[2]==1&&checkmove[3]==1){
-      checkmove[0]=0
-      checkmove[1]=0
-      checkmove[2]=0
-      checkmove[3]=0
-    }
     fmt.Println(r.FormValue("d"))
     //d:=r.FormValue("d")
     d:=strings.Split(r.FormValue("d"), "")
-    //fmt.Println(d);
     /*
     for i:=0; i<len(d); i++{
       if d[i]=="r"{p[u]["y"]++
@@ -159,17 +152,10 @@ func MoveServer(w http.ResponseWriter, r *http.Request) {
     }
     user[p[u]["x"]][p[u]["y"]]=u
     pcount[u]++
-    checkmove[u-1]=1
-    for true {
-      if(checkmove[0]==1&&checkmove[1]==1&&checkmove[2]==1&&checkmove[3]==1){
-        break
-      }
-    }
     if(pcount[1]==pcount[2]&&pcount[2]==pcount[3]&&pcount[3]==pcount[4]){
       pcount[0]=pcount[1]
       fmt.Fprintf(w,"%d ",pcount[0])
     }
-    fmt.Fprintf(w,"%d ",pcount[0])
     if(turn==pcount[0]){
       fmt.Fprintf(w,"end the game \n")
     }
@@ -181,12 +167,6 @@ func RemoveServer(w http.ResponseWriter, r *http.Request) {
   //curl -X POST localhost:8000/move -d "usr=1&d=right"
   u,_:=strconv.Atoi(r.FormValue("usr"))
   fmt.Println(u)
-  if(checkmove[0]==1&&checkmove[1]==1&&checkmove[2]==1&&checkmove[3]==1){
-    checkmove[0]=0
-    checkmove[1]=0
-    checkmove[2]=0
-    checkmove[3]=0
-  }
   fmt.Println(r.FormValue("d"))
   d:=strings.Split(r.FormValue("d"), "")
   tmp_px:=p[u]["x"]
@@ -203,19 +183,12 @@ func RemoveServer(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w,"Error \n")
     return
   }
-  checkmove[u-1]=1
-  for true {
-    if(checkmove[0]==1&&checkmove[1]==1&&checkmove[2]==1&&checkmove[3]==1){
-      break
-    }
-  }
+
   pcount[u]++
   if(pcount[1]==pcount[2]&&pcount[2]==pcount[3]&&pcount[3]==pcount[4]){
     pcount[0]=pcount[1]
     fmt.Fprintf(w,"%d ",pcount[0])
   }
-
-
   if(turn==pcount[0]){
     fmt.Fprintf(w,"end the game \n")
   }
@@ -427,7 +400,7 @@ func fill(x int, y int,c int){
   }
 }
 */
-/*
+
 func InitServer(w http.ResponseWriter, r *http.Request) {
   r.ParseForm()
   fieldSize:=r.Form["fieldSize"]
@@ -436,10 +409,11 @@ func InitServer(w http.ResponseWriter, r *http.Request) {
   fmt.Println(fieldSize)
   fmt.Println(initPosition)
   fmt.Println(PointField)
-  length=fieldSize[0]
-  width=fieldSize[1]
+  length, _ =strconv.Atoi(fieldSize[0])
+  width, _ =strconv.Atoi(fieldSize[1])
   field=make([][]int,length)
-  count:=0
+  //count:=0
+  /*
   for i:=0; i<length; i++{
     field[i]=make([]int, width)
     for j:=0; j<width; j++ {
@@ -449,9 +423,10 @@ func InitServer(w http.ResponseWriter, r *http.Request) {
     }
     fmt.Fprintf(w,"\n")
   }
+  */
 
 }
-*/
+
 
 func main() {
     // http.HandleFuncにルーティングと処理する関数を登録
@@ -462,7 +437,7 @@ func main() {
     http.HandleFunc("/usrpoint", UsrpointServer)
     http.HandleFunc("/pointcalc", PointcalcServer)
     http.HandleFunc("/judgedirection", JudgeServer)
-    // http.HandleFunc("/init", InitServer)
+    http.HandleFunc("/init", InitServer)
 
     // ログ出力
     log.Printf("Start Go HTTP Server")

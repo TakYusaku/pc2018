@@ -1,4 +1,4 @@
-// vs person
+// learning only
 package main
 
 import (
@@ -21,7 +21,6 @@ var length=0
 var width=0
 var p=make(map[int]map[string]int)
 var pcount [5]int = [5]int{0, 0, 0, 0, 0}
-var checkmove [4]int = [4]int{0, 0, 0, 0}
 
 func StartServer(w http.ResponseWriter, r *http.Request) {
     rand.Seed(time.Now().UnixNano())
@@ -109,16 +108,9 @@ func MoveServer(w http.ResponseWriter, r *http.Request) {
     //curl -X POST localhost:8000/move -d "usr=1&d=right"
     u,_:=strconv.Atoi(r.FormValue("usr"))
     fmt.Println(u)
-    if(checkmove[0]==1&&checkmove[1]==1&&checkmove[2]==1&&checkmove[3]==1){
-      checkmove[0]=0
-      checkmove[1]=0
-      checkmove[2]=0
-      checkmove[3]=0
-    }
     fmt.Println(r.FormValue("d"))
     //d:=r.FormValue("d")
     d:=strings.Split(r.FormValue("d"), "")
-    //fmt.Println(d);
     /*
     for i:=0; i<len(d); i++{
       if d[i]=="r"{p[u]["y"]++
@@ -159,17 +151,10 @@ func MoveServer(w http.ResponseWriter, r *http.Request) {
     }
     user[p[u]["x"]][p[u]["y"]]=u
     pcount[u]++
-    checkmove[u-1]=1
-    for true {
-      if(checkmove[0]==1&&checkmove[1]==1&&checkmove[2]==1&&checkmove[3]==1){
-        break
-      }
-    }
     if(pcount[1]==pcount[2]&&pcount[2]==pcount[3]&&pcount[3]==pcount[4]){
       pcount[0]=pcount[1]
       fmt.Fprintf(w,"%d ",pcount[0])
     }
-    fmt.Fprintf(w,"%d ",pcount[0])
     if(turn==pcount[0]){
       fmt.Fprintf(w,"end the game \n")
     }
@@ -181,12 +166,6 @@ func RemoveServer(w http.ResponseWriter, r *http.Request) {
   //curl -X POST localhost:8000/move -d "usr=1&d=right"
   u,_:=strconv.Atoi(r.FormValue("usr"))
   fmt.Println(u)
-  if(checkmove[0]==1&&checkmove[1]==1&&checkmove[2]==1&&checkmove[3]==1){
-    checkmove[0]=0
-    checkmove[1]=0
-    checkmove[2]=0
-    checkmove[3]=0
-  }
   fmt.Println(r.FormValue("d"))
   d:=strings.Split(r.FormValue("d"), "")
   tmp_px:=p[u]["x"]
@@ -203,19 +182,12 @@ func RemoveServer(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w,"Error \n")
     return
   }
-  checkmove[u-1]=1
-  for true {
-    if(checkmove[0]==1&&checkmove[1]==1&&checkmove[2]==1&&checkmove[3]==1){
-      break
-    }
-  }
+
   pcount[u]++
   if(pcount[1]==pcount[2]&&pcount[2]==pcount[3]&&pcount[3]==pcount[4]){
     pcount[0]=pcount[1]
     fmt.Fprintf(w,"%d ",pcount[0])
   }
-
-
   if(turn==pcount[0]){
     fmt.Fprintf(w,"end the game \n")
   }
@@ -451,7 +423,7 @@ func InitServer(w http.ResponseWriter, r *http.Request) {
   }
 
 }
-*/
+/*
 
 func main() {
     // http.HandleFuncにルーティングと処理する関数を登録
@@ -468,7 +440,7 @@ func main() {
     log.Printf("Start Go HTTP Server")
 
     // http.ListenAndServeで待ち受けるportを指定
-    err := http.ListenAndServe(":8001", nil)
+    err := http.ListenAndServe(":8000", nil)
 
     // エラー処理
     if err != nil {

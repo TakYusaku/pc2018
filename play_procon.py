@@ -1,4 +1,4 @@
-# 本番で使う
+# 本番で使う api.go(24_vso)
 
 import requests
 import numpy as np
@@ -122,6 +122,26 @@ if __name__ == '__main__':
         "PointField":field_info[3]
     }
     response = requests.post('http://localhost:8001/init', data=info)
+    while True:
+        print(requests.post('http://localhost:8001/show').text)
+        y_n = str(input("もし敵の初期位置が違うなら[n]を入力．OKなら[y]を入力. "))
+        if y_n == "n":
+            print("indexではなく位置を入力")
+            e_init_1 = int(input("3:Row "))
+            e_init_2 = int(input("3:Column "))
+            e_init_3 = int(input("4:Row "))
+            e_init_4 = int(input("4:Column "))
+            e_initPosition = [[e_init_1-1,e_init_2-1],[e_init_3-1,e_init_4-1]]
+            info = {
+                "fieldSize":field_info[0],
+                "f_initPosition":[[field_info[1][0]-1,field_info[1][1]-1],[field_info[2][0]-1,field_info[2][1]-1]],
+                "e_initPosition":e_initPosition,
+                "PointField":field_info[3]
+            }
+            response = requests.post('http://localhost:8001/init', data=info)
+        elif y_n == "y":
+            break
+
     #######
     q_table = readQtable("MCM")
     num_terns = int(input("please input terns "))
@@ -132,7 +152,8 @@ if __name__ == '__main__':
     for i in range(num_terns): # 敵は1,2  味方は3,4
         cnt = [0,0]
         print(" ================== now tern is " + str(1 + i) + " ================== ")
-        print(requests.post('http://localhost:8001/show').text)
+        if i != 0:
+            print(requests.post('http://localhost:8001/show').text)
         response = requests.post('http://localhost:8001/pointcalc').text.encode('utf-8').decode().replace("\n", " ").replace("  "," ")
         v = [int(i) for i in response.split()]
         print(v)
@@ -141,14 +162,23 @@ if __name__ == '__main__':
         u3 = ""
         u4_ac = ""
         u4 = ""
+        pos = [getPosition(1),getPosition(2)]
+        e_ac, cnt = getAction(cnt,q_table,pos)
+
+        print("@@@@ our action is @@@@")
+        print("1 is ")
+        print(e_ac[0])
+        print("2 is ")
+        print(e_ac[1])
+
         while True:
-            u3_ac = input("1:please input action ")
+            u3_ac = input("3:please input action ")
             if u3_ac == "move" or u3_ac == "remove":
                 break
             else:
                 print("incorrect!!")
         while True:
-            u3 = input("1:please input direction ")
+            u3 = input("3:please input direction ")
             if u3 == "lu" or u3 == "u" or u3 == "ru" or u3 == "l" or u3 == "s" or u3 == "r" or u3 == "ld" or u3 == "d" or u3 == "rd":
                 break
             else:
@@ -162,13 +192,13 @@ if __name__ == '__main__':
 
         u4_pos = getPosition(4)
         while True:
-            u4_ac = input("2:please input action ")
+            u4_ac = input("4:please input action ")
             if u4_ac == "move" or u4_ac == "remove":
                 break
             else:
                 print("incorrect!!")
         while True:
-            u4 = input("2:please input direction ")
+            u4 = input("4:please input direction ")
             if u4 == "lu" or u4 == "u" or u4 == "ru" or u4 == "l" or u4 == "s" or u4 == "r" or u4 == "ld" or u4 == "d" or u4 == "rd":
                 break
             else:
@@ -180,11 +210,6 @@ if __name__ == '__main__':
             nd4 = getDirection(u4)
             np4 = [u4_pos[0] + nd4[0],u4_pos[1] + nd4[1]]
 
-        pos = [getPosition(1),getPosition(2)]
-        e_ac, cnt = getAction(cnt,q_table,pos)
-
-        print("next enemy position is ")
-        print(e_ac)
 
         if np3 == e_ac[0][2]:
             u3_ac = "stay"

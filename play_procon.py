@@ -1,7 +1,9 @@
+# 本番で使う
+
 import requests
 import numpy as np
 import csv
-import test_qr as qr
+import qr.test_qr as qr
 
 
 def getAction(cnt,q_table,pos):
@@ -32,32 +34,6 @@ def getAction(cnt,q_table,pos):
                 cnt_a.append(c[i]+1)
     return a,cnt_a
 
-def re_getAction(cnt,q_table,pos,num):
-    a = []
-    c = cnt
-    cnt_a = []
-    observation = getStatus(pos)
-    x = np.argsort(q_table[observation[num-1]])[::-1]
-    b = False
-    while b!=True:
-        data = [
-          ('usr', num),
-          ('d', gaStr(x[c[num-1]])),
-        ]
-        f = requests.post('http://localhost:8001/judgedirection', data = data).text.encode('utf-8').decode().replace("\n", " ").replace("  "," ")
-        iv_list = [i for i in f.split()]
-        s = [int(iv_list[0]),int(iv_list[1])]
-        if iv_list[2] == "Error":
-            c[num-1] += 1
-        elif iv_list[2] == "is_panel":
-            a.append(["remove", gaStr(x[c[num-1]]),s])
-            b = True
-            cnt_a.append(c[num-1]+1)
-        else:
-            a.append(["move", gaStr(x[c[num-1]]),s])
-            b = True
-            cnt_a.append(c[num-1]+1)
-    return a,cnt_a
 
 def getStatus(observation):
     obs1 = observation[0]
@@ -87,7 +63,7 @@ def gaStr(action): # get action str // verified
         return "rd"
 
 def readQtable(type):
-    fn = './result/q_table_' + type + '_1007.csv'
+    fn = './result/q_table_1024_2_' + type + '.csv'
     with open(fn, 'r') as file:
         lst = list(csv.reader(file))
     a = []
@@ -130,19 +106,9 @@ def getDirection(dir):
 
 
 if __name__ == '__main__':
-    response = requests.get('http://localhost:8001/start')
-    f = response.text
     print(" @#$@#$@#$@#$@#$@#$ game start @#$@#$@#$@#$@#$@#$")
-    print(f)
-    ###
-    ff = f.encode('utf-8').decode().replace("\n", " ").replace("  "," ")
-    iv_list = [int(i) for i in ff.split()] #listing initial value
-    num_terns = iv_list[0] #number of terns
-    Row = iv_list[1] #row of field
-    Column = iv_list[2]
-    ###
     #######
-    field = qr.Decode()
+    field_info = qr.Decode()
     if field_info[1][0] == field_info[2][0]:
         e_initPosition = [[field_info[0][0]-field_info[1][0],field_info[1][1]-1],[field_info[0][0]-field_info[2][0],field_info[2][1]-1]]
     elif field_info[1][1] == field_info[2][1]:
@@ -157,7 +123,8 @@ if __name__ == '__main__':
     }
     response = requests.post('http://localhost:8001/init', data=info)
     #######
-    q_table = readQtable("QL")
+    q_table = readQtable("MCM")
+    num_terns = int(input("please input terns "))
 
 
     print("tern is " + str(num_terns))
@@ -175,13 +142,13 @@ if __name__ == '__main__':
         u4_ac = ""
         u4 = ""
         while True:
-            u3_ac = input()
+            u3_ac = input("1:please input action ")
             if u3_ac == "move" or u3_ac == "remove":
                 break
             else:
                 print("incorrect!!")
         while True:
-            u3 = input()
+            u3 = input("1:please input direction ")
             if u3 == "lu" or u3 == "u" or u3 == "ru" or u3 == "l" or u3 == "s" or u3 == "r" or u3 == "ld" or u3 == "d" or u3 == "rd":
                 break
             else:
@@ -195,13 +162,13 @@ if __name__ == '__main__':
 
         u4_pos = getPosition(4)
         while True:
-            u4_ac = input()
+            u4_ac = input("2:please input action ")
             if u4_ac == "move" or u4_ac == "remove":
                 break
             else:
                 print("incorrect!!")
         while True:
-            u4 = input()
+            u4 = input("2:please input direction ")
             if u4 == "lu" or u4 == "u" or u4 == "ru" or u4 == "l" or u4 == "s" or u4 == "r" or u4 == "ld" or u4 == "d" or u4 == "rd":
                 break
             else:

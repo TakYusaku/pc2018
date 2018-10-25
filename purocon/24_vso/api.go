@@ -1,4 +1,4 @@
-// learning only
+//   vs user  これは使えるやつ  とうじつよう
 package main
 
 import (
@@ -25,6 +25,7 @@ var pcount [5]int = [5]int{0, 0, 0, 0, 0}
 func StartServer(w http.ResponseWriter, r *http.Request) {
     rand.Seed(time.Now().UnixNano())
     turn=rand.Intn(60)+60
+    turn=15
     length=rand.Intn(4)+8
     width=rand.Intn(4)+8
     fmt.Fprintf(w,"%d\n",turn)
@@ -399,31 +400,73 @@ func fill(x int, y int,c int){
   }
 }
 */
-/*
+
 func InitServer(w http.ResponseWriter, r *http.Request) {
   r.ParseForm()
   fieldSize:=r.Form["fieldSize"]
-  initPosition:=r.Form["initPosition"]
+  f_initPosition:=r.Form["f_initPosition"]
+  e_initPosition:=r.Form["e_initPosition"]
   PointField:=r.Form["PointField"]
-  fmt.Println(fieldSize)
-  fmt.Println(initPosition)
-  fmt.Println(PointField)
-  length=fieldSize[0]
-  width=fieldSize[1]
+  //fmt.Println(fieldSize)
+  //fmt.Println(f_initPosition)
+  //fmt.Println(e_initPosition)
+  //fmt.Println(PointField)
+  turn=80
+  length, _ =strconv.Atoi(fieldSize[0])
+  width, _ =strconv.Atoi(fieldSize[1])
+
   field=make([][]int,length)
   count:=0
+
   for i:=0; i<length; i++{
     field[i]=make([]int, width)
     for j:=0; j<width; j++ {
-      field[i][j]=PointField[count]
+      field[i][j], _ = strconv.Atoi(PointField[count])
       count++
-      fmt.Fprintf(w,"%d ",field[i][j])
+      //fmt.Println(field[i][j])
     }
-    fmt.Fprintf(w,"\n")
+    //fmt.Println("\n")
   }
 
-}
+  for i:=0; i<length; i++{
+    user[i]=make([]int, width)
+  }
+
+  tmpf:=[]int{0,0,0,0}
+  tmpe:=[]int{0,0,0,0}
+  for i:=0; i<4; i++{
+    tmpf[i],_=strconv.Atoi(f_initPosition[i])
+    tmpe[i],_=strconv.Atoi(e_initPosition[i])
+  }
+  user[tmpf[0]][tmpf[1]]=1
+  user[tmpf[2]][tmpf[3]]=2
+  user[tmpe[0]][tmpe[1]]=3
+  user[tmpe[2]][tmpe[3]]=4
+
+  for i:=1; i<5; i++{
+    p[i]=make(map[string]int)
+  }
+  p[1]["x"]=tmpf[0]
+  p[1]["y"]=tmpf[1]
+  p[2]["x"]=tmpf[2]
+  p[2]["y"]=tmpf[3]
+  p[3]["x"]=tmpe[0]
+  p[3]["y"]=tmpe[1]
+  p[4]["x"]=tmpe[2]
+  p[4]["y"]=tmpe[3]
+
 /*
+  for i:=0; i<length; i++{
+    for j:=0; j<width; j++ {
+      fmt.Println(user[i][j])
+    }
+    fmt.Println("\n")
+  }
+  */
+
+}
+
+
 
 func main() {
     // http.HandleFuncにルーティングと処理する関数を登録
@@ -434,13 +477,13 @@ func main() {
     http.HandleFunc("/usrpoint", UsrpointServer)
     http.HandleFunc("/pointcalc", PointcalcServer)
     http.HandleFunc("/judgedirection", JudgeServer)
-    // http.HandleFunc("/init", InitServer)
+    http.HandleFunc("/init", InitServer)
 
     // ログ出力
-    log.Printf("Start Go HTTP Server")
+    log.Printf("Start Go HTTP Server (port number is 8001)")
 
     // http.ListenAndServeで待ち受けるportを指定
-    err := http.ListenAndServe(":8000", nil)
+    err := http.ListenAndServe(":8001", nil)
 
     // エラー処理
     if err != nil {

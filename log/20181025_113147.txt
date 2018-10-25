@@ -1,0 +1,25 @@
+==================== start time is 2018-10-25 11:31:47.047613 ==================== 
+epoch is 0 now.
+Win1 is 1
+Win2 is 0
+now time is 2018-10-25 11:31:51.006100
+epoch is 500 now.
+Win1 is 245
+Win2 is 256
+now time is 2018-10-25 11:58:44.083675
+epoch is 1000 now.
+Win1 is 492
+Win2 is 509
+now time is 2018-10-25 12:27:54.392077
+epoch is 1500 now.
+Win1 is 723
+Win2 is 778
+now time is 2018-10-25 12:55:53.843854
+epoch is 2000 now.
+Win1 is 971
+Win2 is 1030
+now time is 2018-10-25 13:22:51.073008
+epoch is 2500 now.
+Win1 is 1190
+Win2 is 1311
+now time is 2018-10-25 13:49:29.132194

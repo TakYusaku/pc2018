@@ -12,7 +12,7 @@ import matplotlib.pyplot as pl
 # update Qtables
 def updateQtable(env, q_table, observation, action, reward, next_observation):
     gamma = 0.99 # time discount rate
-    alpha = 0.5 # learning rate
+    alpha = 0.1 # learning rate
 
     #行動後の状態で得られる最大行動価値　(つまり最も良い行動を選ぶ)
     next_position = env.getStatus(next_observation)
@@ -23,12 +23,12 @@ def updateQtable(env, q_table, observation, action, reward, next_observation):
     q_value = np.array([q_table[position[0],action[0][0]], q_table[position[1],action[1][0]]])
 
     #  行動価値関数の更新
-    q_table[position[0],action[0][0]] = q_value[0] + alpha * (reward + gamma * next_max_q_value[0] - q_value[0])
-    q_table[position[1],action[1][0]] = q_value[1] + alpha * (reward + gamma * next_max_q_value[1] - q_value[1])
+    q_table[position[0],action[0][0]] = q_value[0] + alpha * (reward[0] + gamma * next_max_q_value[0] - q_value[0])
+    q_table[position[1],action[1][0]] = q_value[1] + alpha * (reward[1] + gamma * next_max_q_value[1] - q_value[1])
 
     return q_table
-
-# get action (list)
+"""
+# get action (list)  # フィールド外は再計算
 def getAction(env, q_table, observation, episode, choice):
     epsilon = 0.5 * (1 / (episode + 1))
     a = []
@@ -53,6 +53,29 @@ def getAction(env, q_table, observation, episode, choice):
             while b!=True:
                 pa = np.random.choice([0, 1, 2, 3, 4, 5, 6, 7, 8])
                 b, d, ms, next_pos = env.judAc(i+1+n, pa)
+            a.append([d, ms, next_pos])
+
+    return a  # [int, str, list]
+"""
+# get action (list)  # フィールド外は報酬がマイナス(罰金を与える)
+def getAction(env, q_table, observation, episode, choice):
+    epsilon = 0.5 * (1 / (episode + 1))
+    a = []
+    b = False
+    n = 0
+    if choice == 0:
+        n = 0
+    elif choice == 1:
+        n = 2
+    for i in range(2):
+        if np.random.uniform(0, 1) > epsilon:  # e-greedy low is off
+            x = np.argsort(q_table[observation[i]])[::-1]
+            b, d, ms, next_pos = env.judAc(i+1+n, x[0])
+            a.append([d, ms, next_pos])
+
+        else: # e-greedy low is on
+            pa = np.random.choice([0, 1, 2, 3, 4, 5, 6, 7, 8])
+            b, d, ms, next_pos = env.judAc(i+1+n, pa)
             a.append([d, ms, next_pos])
 
     return a  # [int, str, list]

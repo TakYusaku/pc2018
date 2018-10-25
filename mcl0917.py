@@ -9,8 +9,8 @@ from collections import deque
 import time
 import threading
 #import # 敵のデータ
-
-def getAction(env, q_table, observation, episode,choice): # get action (array)
+"""
+def getAction(env, q_table, observation, episode,choice): # get action (array)  # フィールド外は再計算
     epsilon = 0.5 * (1 / (episode + 1))
     a = []
     b = False
@@ -38,14 +38,36 @@ def getAction(env, q_table, observation, episode,choice): # get action (array)
             a.append([d, ms, next_pos])
 
     return a  # [[int(direction), str(movement), list(next position)],[]]
+"""
+def getAction(env, q_table, observation, episode,choice): # get action (array)  # フィールド外は罰金
+    epsilon = 0.5 * (1 / (episode + 1))
+    a = []
+    b = False
+    n = 2
+    if choice == 0:
+        n = 2
+    elif choice == 1:
+        n = 0
+
+    for i in range(2):
+        if np.random.uniform(0, 1) > epsilon:  # e-greedy low is off
+            x = np.argsort(q_table[observation[i]])[::-1]
+            b, d, ms, next_pos = env.judAc(i+1+n, x[0])
+            a.append([d, ms, next_pos])
+
+        else: # e-greedy low is on
+            pa = np.random.choice([0, 1, 2, 3, 4, 5, 6, 7, 8])
+            b, d, ms, next_pos = env.judAc(i+1+n, pa)
+            a.append([d, ms, next_pos])
+
+    return a  # [[int(direction), str(movement), list(next position)],[]]
 
 
 # [] update Qtables
 def updateQtable(q_table, memory):#observation, action, reward, next_observation):
     gamma = 0.99 # time discount rate
-    alpha = 0.5 # learning rate
+    alpha = 0.1 # learning rate
     total_reward_t = 0
-
     while (memory.len() > 0):
         (state, action, reward) = memory.sample()
         total_reward_t = gamma * total_reward_t       # 時間割引率をかける

@@ -44,35 +44,29 @@ def Decode():
             r.append([row,column])
             size = row * column
             del iv_list[0:2]
-            init_pos = [[iv_list[size],iv_list[size + 1]],[iv_list[size + 2],iv_list[size + 3]]]
+            init_pos1 = [iv_list[size],iv_list[size + 1]]
+            init_pos2 = [iv_list[size + 2],iv_list[size + 3]]
             del iv_list[size:]
-            r.append(init_pos)
+            r.append(init_pos1)
+            r.append(init_pos2)
             r.append(iv_list)
             break
-    print(r)
     return r
 
 if __name__ == "__main__":
     field_info = Decode()
-    """
-    tmp=""
-    for i in field_info:
-        tmp=tmp+str(field_info[i])+" "
-    field_info=tmp
-    print(field_info)
-    """
+    if field_info[1][0] == field_info[2][0]:
+        e_initPosition = [[field_info[0][0]-field_info[1][0],field_info[1][1]-1],[field_info[0][0]-field_info[2][0],field_info[2][1]-1]]
+    elif field_info[1][1] == field_info[2][1]:
+        e_initPosition = [[field_info[1][0]-1,field_info[0][1]-field_info[1][1]],[field_info[2][0]-1,field_info[0][1]-field_info[2][1]]]
+    else:
+        e_initPosition = [[field_info[1][0]-1,field_info[2][1]-1],[field_info[2][0]-1,field_info[1][1]-1]]
     info = {
         "fieldSize":field_info[0],
-        "initPosition":field_info[1],
-        "PointField":field_info[2]
-    }
-    print(info)
-    #data = json.dumps(info)  headers=headers,
-
-    data = {
-        'point':field_info,
-        'size':'hello'
+        "f_initPosition":[[field_info[1][0]-1,field_info[1][1]-1],[field_info[2][0]-1,field_info[2][1]-1]],
+        "e_initPosition":e_initPosition,
+        "PointField":field_info[3]
     }
     #try:
-    response = requests.post('http://localhost:8000/init', data=info)
+    response = requests.post('http://localhost:8001/init', data=info)
     #except:

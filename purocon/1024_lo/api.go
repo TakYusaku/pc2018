@@ -1,4 +1,4 @@
-//   vs user  これは使えるやつ
+// learning only
 package main
 
 import (
@@ -25,7 +25,6 @@ var pcount [5]int = [5]int{0, 0, 0, 0, 0}
 func StartServer(w http.ResponseWriter, r *http.Request) {
     rand.Seed(time.Now().UnixNano())
     turn=rand.Intn(60)+60
-    turn=15
     length=rand.Intn(4)+8
     width=rand.Intn(4)+8
     fmt.Fprintf(w,"%d\n",turn)
@@ -409,15 +408,14 @@ func InitServer(w http.ResponseWriter, r *http.Request) {
   fmt.Println(fieldSize)
   fmt.Println(initPosition)
   fmt.Println(PointField)
-  length, _ =strconv.Atoi(fieldSize[0])
-  width, _ =strconv.Atoi(fieldSize[1])
+  length=fieldSize[0]
+  width=fieldSize[1]
   field=make([][]int,length)
   count:=0
-
   for i:=0; i<length; i++{
     field[i]=make([]int, width)
     for j:=0; j<width; j++ {
-      field[i][j], _ = strconv.Atoi(PointField[count])
+      field[i][j]=PointField[count]
       count++
       fmt.Fprintf(w,"%d ",field[i][j])
     }
@@ -426,7 +424,6 @@ func InitServer(w http.ResponseWriter, r *http.Request) {
 
 }
 */
-
 
 func main() {
     // http.HandleFuncにルーティングと処理する関数を登録
@@ -440,10 +437,10 @@ func main() {
     // http.HandleFunc("/init", InitServer)
 
     // ログ出力
-    log.Printf("Start Go HTTP Server (port number is 8001)")
+    log.Printf("Start Go HTTP Server (port number is 8000,learning only)")
 
     // http.ListenAndServeで待ち受けるportを指定
-    err := http.ListenAndServe(":8001", nil)
+    err := http.ListenAndServe(":8000", nil)
 
     // エラー処理
     if err != nil {

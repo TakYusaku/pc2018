@@ -9,9 +9,10 @@ from collections import deque
 import time
 import threading
 #import # 敵のデータ
-"""
+
 def getAction(env, q_table, observation, episode,choice): # get action (array)  # フィールド外は再計算
-    epsilon = 0.5 * (1 / (episode + 1))
+    #epsilon = 0.5 * (1 / (episode + 1))
+    epsilon = 0.5
     a = []
     b = False
     n = 2
@@ -40,7 +41,8 @@ def getAction(env, q_table, observation, episode,choice): # get action (array)  
     return a  # [[int(direction), str(movement), list(next position)],[]]
 """
 def getAction(env, q_table, observation, episode,choice): # get action (array)  # フィールド外は罰金
-    epsilon = 0.5 * (1 / (episode + 1))
+    #epsilon = 0.5 * (1 / (episode + 1))
+    epsilon = 0.5
     a = []
     b = False
     n = 2
@@ -59,9 +61,8 @@ def getAction(env, q_table, observation, episode,choice): # get action (array)  
             pa = np.random.choice([0, 1, 2, 3, 4, 5, 6, 7, 8])
             b, d, ms, next_pos = env.judAc(i+1+n, pa)
             a.append([d, ms, next_pos])
-
     return a  # [[int(direction), str(movement), list(next position)],[]]
-
+"""
 
 # [] update Qtables
 def updateQtable(q_table, memory):#observation, action, reward, next_observation):

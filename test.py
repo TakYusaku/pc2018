@@ -244,6 +244,7 @@ if __name__ == '__main__':
         print(m)
         Log(m,fm)
         #linenotify.main_m(m)
+
     except:
         m = str(sys.exc_info())
         print(m)

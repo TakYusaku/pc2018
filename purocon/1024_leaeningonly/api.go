@@ -1,4 +1,4 @@
-// learning only
+// learning only port num is 8000
 package main
 
 import (

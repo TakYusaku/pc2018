@@ -15,3 +15,32 @@ epoch is 1500 now.
 Win1 is 742
 Win2 is 759
 now time is 2018-10-25 20:22:41.806564
+epoch is 2000 now.
+Win1 is 988
+Win2 is 1013
+now time is 2018-10-25 20:53:48.838449
+epoch is 2500 now.
+Win1 is 1243
+Win2 is 1258
+now time is 2018-10-25 21:24:58.787063
+epoch is 3000 now.
+Win1 is 1490
+Win2 is 1511
+now time is 2018-10-26 00:07:58.931393
+epoch is 3500 now.
+Win1 is 1734
+Win2 is 1767
+now time is 2018-10-26 00:40:47.313169
+epoch is 4000 now.
+Win1 is 1959
+Win2 is 2042
+now time is 2018-10-26 01:13:29.219855
+epoch is 4500 now.
+Win1 is 2204
+Win2 is 2297
+now time is 2018-10-26 01:45:53.120449
+epoch is 4500 now.
+Win1 is 2204
+Win2 is 2297
+now time is 2018-10-26 01:45:53.120449
+finished time is 2018-10-26 02:18:20.610652

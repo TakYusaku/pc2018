@@ -1,4 +1,4 @@
-//   vs user  これは使えるやつ  とうじつよう
+//   vs user  これは使えるやつ  とうじつよう portnum is 8001
 package main
 
 import (

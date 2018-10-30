@@ -157,8 +157,46 @@ def getAction(env, q_table, observation, episode, choice):
 
     return a  # [int, str, list]
 
+def getAction_8003(env, q_table, observation, episode, choice):
+    epsilon = 0.5 * (1 / (episode + 1))
+    a = []
+    b = False
+    n = 0
+    m = 0
+    if choice == 0:
+        n = 0
+        m = 5
+    elif choice == 1:
+        n = 2
+        m = 6
+    for i in range(2):
+        if np.random.uniform(0, 1) > epsilon:  # e-greedy low is off
+            x = np.argsort(q_table[observation[i]])[::-1]
+            b = False
+            c = 0
+            while b!=True:
+                b, d, ms, next_pos = env.judAc(i+1+n, x[c])
+                lv = env.show()
+                try:
+                    if lv[next_pos[0],next_pos[1]] == m:
+                        c += 1
+                        b = False
+                    else:
+                        c += 1
+                except:
+                    c += 1
+            a.append([d, ms, next_pos])
+        else: # e-greedy low is on
+            b = False
+            while b!=True:
+                pa = np.random.choice([0, 1, 2, 3, 4, 5, 6, 7, 8])
+                b, d, ms, next_pos = env.judAc(i+1+n, pa)
+            a.append([d, ms, next_pos])
+
+    return a  # [int, str, list]
+
 def readQtable(type):
-    fn = 'q_table_' + type + '.csv'
+    fn = 'q_table_' + type + '_1026_33000.csv'
     with open(fn, 'r') as file:
         lst = list(csv.reader(file))
     a = []

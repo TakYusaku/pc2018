@@ -112,6 +112,10 @@ func MoveServer(w http.ResponseWriter, r *http.Request) {
     fmt.Println(r.FormValue("d"))
     //d:=r.FormValue("d")
     d:=strings.Split(r.FormValue("d"), "")
+    if(d[0]=="z"){
+      pcount[u]++
+      return
+    }
     /*
     for i:=0; i<len(d); i++{
       if d[i]=="r"{p[u]["y"]++

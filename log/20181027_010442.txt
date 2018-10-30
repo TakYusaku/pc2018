@@ -1,0 +1,53 @@
+==================== start time is 2018-10-27 01:04:42.822257 ==================== 
+epoch is 33000 now.
+Win1 is 1
+Win2 is 0
+now time is 2018-10-27 01:04:49.436349
+epoch is 33500 now.
+Win1 is 243
+Win2 is 258
+now time is 2018-10-27 01:43:22.694823
+epoch is 34000 now.
+Win1 is 502
+Win2 is 499
+now time is 2018-10-27 02:21:55.835949
+epoch is 34500 now.
+Win1 is 759
+Win2 is 742
+now time is 2018-10-27 02:59:40.356144
+epoch is 35000 now.
+Win1 is 998
+Win2 is 1003
+now time is 2018-10-27 03:38:01.125932
+epoch is 35500 now.
+Win1 is 1233
+Win2 is 1268
+now time is 2018-10-27 04:15:48.784761
+epoch is 36000 now.
+Win1 is 1477
+Win2 is 1524
+now time is 2018-10-27 04:53:25.330265
+epoch is 36500 now.
+Win1 is 1730
+Win2 is 1771
+now time is 2018-10-27 05:31:15.318169
+epoch is 37000 now.
+Win1 is 1988
+Win2 is 2013
+now time is 2018-10-27 06:08:55.880893
+epoch is 37500 now.
+Win1 is 2232
+Win2 is 2269
+now time is 2018-10-27 06:46:32.779347
+epoch is 38000 now.
+Win1 is 2480
+Win2 is 2521
+now time is 2018-10-27 07:24:31.657790
+epoch is 38500 now.
+Win1 is 2705
+Win2 is 2796
+now time is 2018-10-27 08:02:21.922939
+epoch is 39000 now.
+Win1 is 2959
+Win2 is 3042
+now time is 2018-10-27 08:40:05.094758

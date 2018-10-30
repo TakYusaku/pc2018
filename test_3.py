@@ -91,8 +91,8 @@ if __name__ == '__main__':
     Log(m,fm)
     #linenotify.main_m(m)
 
-    env = gym.make('procon18env-v8005')
-    num_episode = 5000
+    env = gym.make('procon18env-v8003')
+    num_episode = 20000
     Win1 = 0
     Win2 = 0
 

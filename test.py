@@ -82,6 +82,17 @@ def notify(num_episode,Win1,Win2,s3,s6):#,s3,s4,s5,s6):
     for i in range(2):
         linenotify.main_f(fig_name[i],fig_name[i])
     """
+def readQtable(type):
+    fn = type
+    with open(fn, 'r') as file:
+        lst = list(csv.reader(file))
+    a = []
+    for i in range(144):
+        a.append(list(map(float,lst[i])))
+    q_table = np.array(a)
+
+    return q_table
+
 # [] main processing
 if __name__ == '__main__':
     # [] make environment
@@ -92,13 +103,13 @@ if __name__ == '__main__':
     #linenotify.main_m(m)
 
     env = gym.make('procon18env-v0')
-    num_episode = 5000
+    num_episode = 60000
     Win1 = 0
     Win2 = 0
 
     # read q tables from csv file
-    q_table = Q.readQtable('QL')
-    q_table_Enemy = Q.readQtable('MCM')
+    q_table = readQtable('q_table_QL.csv')
+    q_table_Enemy = readQtable('q_table_MCM_1026_33000.csv')
     f_rr = [] # 味方の各エピソードの報酬
     e_rr = [] # 敵の各エピソードの報酬
     f_r = []
@@ -111,7 +122,7 @@ if __name__ == '__main__':
     s6 = []
 
     try:
-        for episode in range(num_episode):
+        for episode in range(33000,num_episode):
             # choose initial position (5 or 6)
             choice = np.random.choice([0, 1])
             observation = env.reset(choice)
@@ -225,6 +236,10 @@ if __name__ == '__main__':
         print(Win1)
         print("How many times did MCM win?")
         print(Win2)
+        m = "How many times did QL win?" + str(Win1) + "\n"
+        Log(m,fm)
+        m = "How many times did MCM win?" + str(Win2) + "\n"
+        Log(m,fm)
         """
         plt.figure()
         plt.plot(f_rr, 'r', label="QL")
@@ -237,7 +252,7 @@ if __name__ == '__main__':
         plt.savefig('result_reward.png')
         """
         saveImage()
-        notify(num_episode,Win1,Win2,s3,s6)
+        #notify(num_episode,Win1,Win2,s3,s6)
         #notify(num_episode,Win1,Win2,s1,s2,s3,s4,s5,s6)
         now = datetime.datetime.now()
         m = "finished time is " + str(now)
@@ -252,6 +267,10 @@ if __name__ == '__main__':
         Q.writeQtable("QL", q_table)
         Q.writeQtable("MCM", q_table_Enemy)
         saveImage()
+        m = "How many times did QL win?" + str(Win1) + "\n"
+        Log(m,fm)
+        m = "How many times did MCM win?" + str(Win2) + "\n"
+        Log(m,fm)
         #notify(num_episode,Win1,Win2,s3,s6)
         #notify(num_episode,Win1,Win2,s1,s2,s3,s4,s5,s6)
         now = datetime.datetime.now()

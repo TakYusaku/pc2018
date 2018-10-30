@@ -63,7 +63,7 @@ def gaStr(action): # get action str // verified
         return "rd"
 
 def readQtable(type):
-    fn = './result/q_table_MCM_1027_44000.csv'
+    fn = './result/q_table_' + type + '_1027_44000.csv'
     with open(fn, 'r') as file:
         lst = list(csv.reader(file))
     a = []
@@ -71,7 +71,7 @@ def readQtable(type):
         a.append(list(map(float,lst[i])))
     q_table = np.array(a)
 
-    return q_table
+    return q_table,fn
 
 def getPosition(usr): #get position (array)  // verified
     data = [
@@ -108,6 +108,7 @@ def getDirection(dir):
 if __name__ == '__main__':
     print(" @#$@#$@#$@#$@#$@#$ game start @#$@#$@#$@#$@#$@#$")
     #######
+    num_terns = int(input("please input terns "))
     field_info = qr.Decode()
     if field_info[1][0] == field_info[2][0]:
         e_initPosition = [[field_info[0][0]-field_info[1][0],field_info[1][1]-1],[field_info[0][0]-field_info[2][0],field_info[2][1]-1]]
@@ -141,17 +142,60 @@ if __name__ == '__main__':
             response = requests.post('http://localhost:8001/init', data=info)
         elif y_n == "y":
             break
-
+    print(" ================== now tern is " + str(1) + " ================== ")
     #######
-    q_table = readQtable("MCM")
-    num_terns = int(input("please input terns "))
+    q_table,fnnn = readQtable("MCM")
+    cnt = [0,0]
+    pos = [getPosition(1),getPosition(2)]
+    e_ac, cnt = getAction(cnt,q_table,pos)
+    print("@@@@ our action is @@@@")
+    print("1 is ")
+    print(e_ac[0])
+    print("2 is ")
+    print(e_ac[1])
+    if e_ac[0][0] == "remove":
+        data = [
+          ('usr', 1),
+          ('d', e_ac[0][1])
+        ]
+        r1 = requests.post('http://localhost:8001/remove', data=data)
+    elif e_ac[0][0] == "move":
+        data = [
+          ('usr', 1),
+          ('d', e_ac[0][1])
+        ]
+        r1 = requests.post('http://localhost:8001/move', data=data)
+    elif e_ac[0][0] == "stay":
+        data = [
+          ('usr', 1),
+          ('d', "z")
+        ]
+        r3 = requests.post('http://localhost:8001/move', data=data)
+    if e_ac[1][0] == "remove":
+        data = [
+          ('usr', 2),
+          ('d', e_ac[1][1])
+        ]
+        r2 = requests.post('http://localhost:8001/remove', data=data)
+    elif e_ac[1][0] == "move":
+        data = [
+          ('usr', 2),
+          ('d', e_ac[1][1])
+        ]
+        r2 = requests.post('http://localhost:8001/move', data=data)
+    elif e_ac[1][0] == "stay":
+        data = [
+          ('usr', 2),
+          ('d', "z")
+        ]
+        r3 = requests.post('http://localhost:8001/move', data=data)
 
 
     print("tern is " + str(num_terns))
 
     for i in range(num_terns): # 敵は1,2  味方は3,4
         cnt = [0,0]
-        print(" ================== now tern is " + str(1 + i) + " ================== ")
+        print(" ================== now tern is " + str(2 + i) + " ================== ")
         if i != 0:
             print(requests.post('http://localhost:8001/show').text)
         response = requests.post('http://localhost:8001/pointcalc').text.encode('utf-8').decode().replace("\n", " ").replace("  "," ")
@@ -165,12 +209,36 @@ if __name__ == '__main__':
         u4 = ""
         pos = [getPosition(1),getPosition(2)]
         e_ac, cnt = getAction(cnt,q_table,pos)
-
         print("@@@@ our action is @@@@")
         print("1 is ")
         print(e_ac[0])
         print("2 is ")
         print(e_ac[1])
+
+
+        while True:
+            c_n = input("Q関数を変えるか進むか,変えるなら[MCM or QL] or 進むなら[g] ")
+            if c_n == "MCM" or c_n == "QL":
+                q_table,fnnn = readQtable(c_n)
+                print("q table name is ")
+                print(fnnn)
+                pos = [getPosition(1),getPosition(2)]
+                e_ac, cnt = getAction(cnt,q_table,pos)
+                print("@@@@ re:our action is @@@@")
+                print("1 is ")
+                print(e_ac[0])
+                print("2 is ")
+                print(e_ac[1])
+                break
+            elif c_n == "g":
+                break
+            else:
+                pass
+
+
+        print("q table name is ")
+        print(fnnn)
+
 
         while True:
             print("\n")
@@ -178,7 +246,7 @@ if __name__ == '__main__':
             print(u3_pos)
             while True:
                 u3_ac = input("3:please input action ")
-                if u3_ac == "move" or u3_ac == "remove" or u3_ac == "stay":
+                if u3_ac == "m" or u3_ac == "r" or u3_ac == "s":
                     break
                 else:
                     print("incorrect!!")
@@ -202,7 +270,7 @@ if __name__ == '__main__':
 
             while True:
                 u4_ac = input("4:please input action ")
-                if u4_ac == "move" or u4_ac == "remove" or u4_ac == "stay":
+                if u4_ac == "m" or u4_ac == "r" or u4_ac == "s":
                     break
                 else:
                     print("incorrect!!")

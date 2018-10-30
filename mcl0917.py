@@ -18,8 +18,10 @@ def getAction(env, q_table, observation, episode,choice): # get action (array)  
     n = 2
     if choice == 0:
         n = 2
+        m = 6
     elif choice == 1:
         n = 0
+        m = 5
 
     for i in range(2):
         if np.random.uniform(0, 1) > epsilon:  # e-greedy low is off
@@ -28,7 +30,15 @@ def getAction(env, q_table, observation, episode,choice): # get action (array)  
             c = 0
             while b!=True:
                 b, d, ms, next_pos = env.judAc(i+1+n, x[c])
-                c += 1
+                lv = env.show()
+                try:
+                    if lv[next_pos[0],next_pos[1]] == m:
+                        c += 1
+                        b = False
+                    else:
+                        c += 1
+                except:
+                    c += 1
             a.append([d, ms, next_pos])
 
         else: # e-greedy low is on
